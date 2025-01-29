@@ -1,0 +1,22 @@
+{
+    "name": "Symfony Dev Container",
+    "dockerComposeFile": "compose.yml",
+    "service": "dev",
+    "workspaceFolder": "/workspace",
+    // Extinction du conteneur lors de la fermeture de la fenetre
+    "shutdownAction": "stopCompose", 
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "EditorConfig.EditorConfig",
+                "bmewburn.vscode-intelephense-client",
+                "xdebug.php-debug"
+            ]
+        }
+    },
+    "forwardPorts": [
+        "dev:8000",
+        "mailer:8025",
+        "phpmyadmin:8080"
+    ]
+}
