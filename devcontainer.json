@@ -2,20 +2,38 @@
     "name": "Symfony Dev Container With node",
     "dockerComposeFile": "compose.yml",
     "service": "dev",
-    "workspaceFolder": "/workspace",
+    "workspaceFolder": "/home/code/workspace",
     // Extinction du conteneur lors de la fermeture de la fenetre
     "shutdownAction": "stopCompose",
+    "remoteUser": "code",
     "customizations": {
         "vscode": {
             "extensions": [
                 "EditorConfig.EditorConfig",
                 "bmewburn.vscode-intelephense-client",
-                "xdebug.php-debug"
+                "xdebug.php-debug",
+                "johnpapa.vscode-peacock",
+                "usernamehw.errorlens",
+                "seatonjiang.gitmoji-vscode",
+                "oderwat.indent-rainbow",
+                "eamodio.gitlens",
+                "mblode.twig-language-2",
+                "MehediDracula.php-namespace-resolver",
+                "SanderRonde.phpstan-vscode",
+                "zobo.php-intellisense",
+                "DavidAnson.vscode-markdownlint",
+                "recca0120.vscode-phpunit",
+                "Gruntfuggly.todo-tree",
+                "devsense.phptools-vscode",
+                "PKief.material-icon-theme",
+                "bradlc.vscode-tailwindcss",
+                "esbenp.prettier-vs"
             ]
         }
     },
     "forwardPorts": [
         "dev:8000",
+        "dev:5173",
         "mailer:8025",
         "phpmyadmin:8080"
     ]
