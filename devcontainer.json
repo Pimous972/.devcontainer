@@ -1,10 +1,10 @@
 {
-    "name": "Symfony Dev Container",
+    "name": "Symfony Dev Container With node",
     "dockerComposeFile": "compose.yml",
     "service": "dev",
     "workspaceFolder": "/workspace",
     // Extinction du conteneur lors de la fermeture de la fenetre
-    "shutdownAction": "stopCompose", 
+    "shutdownAction": "stopCompose",
     "customizations": {
         "vscode": {
             "extensions": [

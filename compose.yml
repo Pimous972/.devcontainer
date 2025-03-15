@@ -1,9 +1,9 @@
 services:
   dev:
-    image: symfony_dev_container_php8.3:latest
+    image: pimous/devcontainer:latest
     command: sleep infinity
     volumes:
-      - ../.:/workspace
+      - ../.:/home/code/workspace
     ports:
     - 8000:8000
     environment:
