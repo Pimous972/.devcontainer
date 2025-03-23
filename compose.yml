@@ -1,46 +1,46 @@
 services:
-  dev:
-    image: pimous/devcontainer:latest
-    command: sleep infinity
-    volumes:
-      - ../.:/home/code/workspace
-    ports:
-    - 8000:8000
-    environment:
-      DATABASE_URL: "mysql://${MARIADB_USER:-root}:${MARIADB_USER_PASSWORD:-password}@database:3306/${MARIADB_DB:-app}?serverVersion=11.0.3-MariaDB-1:11.0.3&charset=utf8mb4"
-      MAILER_DSN: "smtp://mailer:1025"
-  
-  database:
-    image: mariadb    
-    restart : always
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: ${MARIADB_DB:-app}
-      MYSQL_USER: ${MARIADB_USER:-symfony}
-      MYSQL_PASSWORD: ${MARIADB_USER_PASSWORD:-password}
-          
-    ports:
-      - "3306:3306" 
-    volumes:
-      - database_data:/var/lib/mysql   
+    dev:
+        image: pimous/devcontainer:latest
+        command: sleep infinity
+        volumes:
+            - ../.:/home/code/workspace
+        ports:
+            - 8000:8000
+        environment:
+            DATABASE_URL: 'mysql://${MARIADB_USER:-root}:${MARIADB_USER_PASSWORD:-password}@database:3306/${MARIADB_DB:-app}?serverVersion=11.0.3-MariaDB-1:11.0.3&charset=utf8mb4'
+            MAILER_DSN: 'smtp://mailer:1025'
 
-  phpmyadmin:
-    image: phpmyadmin:latest
-    ports:
-    - 8080:80
-    environment:
-        - PMA_HOSTS=database
+    database:
+        image: mariadb
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_DATABASE: ${MARIADB_DB:-app}
+            MYSQL_USER: ${MARIADB_USER:-symfony}
+            MYSQL_PASSWORD: ${MARIADB_USER_PASSWORD:-password}
 
-    restart: always
+        ports:
+            - '3306:3306'
+        volumes:
+            - database_data:/var/lib/mysql
 
-  mailer:
-    image: axllent/mailpit
-    ports:
-      - "1025"
-      - "8025"
-    environment:
-      MP_SMTP_AUTH_ACCEPT_ANY: 1
-      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+    phpmyadmin:
+        image: phpmyadmin:latest
+        ports:
+            - 8080:80
+        environment:
+            - PMA_HOSTS=database
+
+        restart: always
+
+    mailer:
+        image: axllent/mailpit
+        ports:
+            - '1025'
+            - '8025'
+        environment:
+            MP_SMTP_AUTH_ACCEPT_ANY: 1
+            MP_SMTP_AUTH_ALLOW_INSECURE: 1
 
 volumes:
-  database_data:
+    database_data:
