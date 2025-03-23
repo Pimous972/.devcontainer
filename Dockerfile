@@ -14,13 +14,16 @@ RUN install-php-extensions \
 # Installer Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Installer Node.js et Yarn avec NVM
+# Installer NVM et Node.js pour tous les utilisateurs
 RUN curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash && \
-    export NVM_DIR="$HOME/.nvm" && \
-    . "$NVM_DIR/nvm.sh" && \
-    nvm install 20 && \
-    nvm use 20 && \
-    npm install --global yarn
+    echo 'export NVM_DIR="$HOME/.nvm"' >> /etc/profile.d/nvm.sh && \
+    echo '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"' >> /etc/profile.d/nvm.sh && \
+    echo '[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"' >> /etc/profile.d/nvm.sh && \
+    bash -c "source /etc/profile.d/nvm.sh && nvm install 20 && nvm use 20 && npm install --global yarn"
+
+# Rendre NVM accessible pour l'utilisateur code
+USER code
+RUN bash -c "source /etc/profile.d/nvm.sh && nvm use 20"
 
 # Installer la Symfony CLI
 RUN curl -sS https://get.symfony.com/cli/installer | bash \

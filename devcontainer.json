@@ -27,7 +27,9 @@
                 "devsense.phptools-vscode",
                 "PKief.material-icon-theme",
                 "bradlc.vscode-tailwindcss",
-                "esbenp.prettier-vs"
+                "esbenp.prettier-vs",
+                "esbenp.prettier-vscode",
+                "Angular.ng-template"
             ]
         }
     },
