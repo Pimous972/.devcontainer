@@ -1,46 +1,52 @@
 services:
-    dev:
-        image: pimous/devcontainer:latest
-        command: sleep infinity
-        volumes:
-            - ../.:/home/code/workspace
-        ports:
-            - 8000:8000
-        environment:
-            DATABASE_URL: 'mysql://${MARIADB_USER:-root}:${MARIADB_USER_PASSWORD:-password}@database:3306/${MARIADB_DB:-app}?serverVersion=11.0.3-MariaDB-1:11.0.3&charset=utf8mb4'
-            MAILER_DSN: 'smtp://mailer:1025'
+  dev:
+    build:
+      context: ./.    # Répertoire racine du projet, ajusté selon la position de ton docker-compose
+      dockerfile: Dockerfile
+      args:
+        PHP_MEMORY_LIMIT: 2G
+    command: sleep infinity
+    volumes:
+      - ../.:/workspace
+    ports:
+    - 8000:8000
+    environment:
+      #DATABASE_URL: "mysql://${MARIADB_USER:-root}:${MARIADB_USER_PASSWORD:-password}@database:3306/${MARIADB_DB:-app}?serverVersion=11.0.3-MariaDB-1:11.0.3&charset=utf8mb4"
+      #DATABASE_URL: "mysql://${MARIADB_USER:-dba}:${MARIADB_USER_PASSWORD:-Elupar7crapule!}@192.168.0.32:3306/${MARIADB_DB:-apeh2m_preprod}?serverVersion=11.0.3-MariaDB-1:11.0.3&charset=utf8mb4"
+      MAILER_DSN: "smtp://mailer:1025"
+    mem_limit: 3g 
+  
+  database:
+    image: mariadb    
+    restart : always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: ${MARIADB_DB:-app}
+      MYSQL_USER: ${MARIADB_USER:-symfony}
+      MYSQL_PASSWORD: ${MARIADB_USER_PASSWORD:-password}
+          
+    ports:
+      - "3306:3306" 
+    volumes:
+      - database_data:/var/lib/mysql   
 
-    database:
-        image: mariadb
-        restart: always
-        environment:
-            MYSQL_ROOT_PASSWORD: password
-            MYSQL_DATABASE: ${MARIADB_DB:-app}
-            MYSQL_USER: ${MARIADB_USER:-symfony}
-            MYSQL_PASSWORD: ${MARIADB_USER_PASSWORD:-password}
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+    - 8081:80
+    environment:
+        - PMA_HOST=database
 
-        ports:
-            - '3306:3306'
-        volumes:
-            - database_data:/var/lib/mysql
+    restart: always
 
-    phpmyadmin:
-        image: phpmyadmin:latest
-        ports:
-            - 8080:80
-        environment:
-            - PMA_HOSTS=database
-
-        restart: always
-
-    mailer:
-        image: axllent/mailpit
-        ports:
-            - '1025'
-            - '8025'
-        environment:
-            MP_SMTP_AUTH_ACCEPT_ANY: 1
-            MP_SMTP_AUTH_ALLOW_INSECURE: 1
+  mailer:
+    image: axllent/mailpit
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
 
 volumes:
-    database_data:
+  database_data:
